@@ -2,13 +2,36 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>JS Bin</title>
+  <title>Simon's Blog!</title>
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
   <script type="text/x-handlebars" data-template-name="application">
     <header>
-      <h1>Simon's Blog</h1>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Depth-first Design</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li>{{#link-to "index" activeClass="active"}}Home{{/link-to}}</li>
+              <li>{{#link-to "about" activeClass="active"}}About{{/link-to}}</li>
+              <li>{{#link-to "blog" activeClass="active"}}Blog{{/link-to}}</li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      
     </header>
 
     <div>
@@ -20,12 +43,26 @@
     </footer>
   </script>
   
+  <script type="text/x-handlebars" data-template-name="index">
+    <p>Welcome to my first Ember.js site!  Think of this as my business card and a fun place for me to test out various Ember.js MVC concepts and see how they compare to my favorite server-side MVC, Ruby on Rails!</p>
+  </script>
+  <script type="text/x-handlebars" data-template-name="about">
+    <p>Simon is a passionate technologist and depth-first developer!</p>
+  </script>
+  
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"></script>
   <script src="http://builds.emberjs.com/tags/v1.7.0/ember.js"></script>
   <script src="http://builds.emberjs.com/beta/ember-data.js"></script>
   <script>
     window.App = Ember.Application.create({ LOG_TRANSITIONS: true });
+  </script>
+  <script>
+    App.Router.map(function(){
+      this.route('about');
+      this.route('blog');
+    });
   </script>
 </body>
 </html>
