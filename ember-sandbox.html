@@ -5,6 +5,12 @@
   <title>Simon's Blog!</title>
   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
+<style>
+  /* prevent navbar wrapping to next line*/
+  body{
+     min-width:280px;
+  }
+</style>
 <body>
 
   <script type="text/x-handlebars" data-template-name="application">
@@ -24,9 +30,9 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li>{{#link-to "index" activeClass="active"}}Home{{/link-to}}</li>
-              <li>{{#link-to "about" activeClass="active"}}About{{/link-to}}</li>
-              <li>{{#link-to "blog" activeClass="active"}}Blog{{/link-to}}</li>
+              {{#link-to "home" tagName="li" href=false}} {{#link-to "home" bubbles=false}}Home{{/link-to}}{{/link-to}}
+              {{#link-to "about" tagName="li" href=false}} {{#link-to "about" bubbles=false}}About{{/link-to}}{{/link-to}}
+              {{#link-to "blog" tagName="li" href=false}} {{#link-to "blog" bubbles=false}}Blog{{/link-to}}{{/link-to}}
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -34,7 +40,7 @@
       
     </header>
 
-    <div>
+    <div class="container">
       {{outlet}}
     </div>
 
@@ -43,14 +49,19 @@
     </footer>
   </script>
   
-  <script type="text/x-handlebars" data-template-name="index">
-    <p>Welcome to my first Ember.js site!  Think of this as my business card and a fun place for me to test out various Ember.js MVC concepts and see how they compare to my favorite server-side MVC, Ruby on Rails!</p>
+  <script type="text/x-handlebars" data-template-name="home">
+    <h1>{{route-name}}</h1>
+    <p>Welcome to my first Ember.js site!  Think of this as a combination of a business card and a fun place for me to test out various Ember.js MVC and other cutting edge javascript concepts and see how they compare to my favorite server-side MVC, Ruby on Rails!</p>
   </script>
   <script type="text/x-handlebars" data-template-name="about">
+    <h1>{{route-name}}</h1>
     <p>Simon is a passionate technologist and depth-first developer!</p>
   </script>
-  
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script type="text/x-handlebars" data-template-name="blog">
+    <h1>{{route-name}}</h1>
+    <p>One day, there will be riveting articles and enthralling discussions about various topics in software programming, design, and security here.  For now, hopefully the clean and fast page transitions of Ember MVC and the slick, responsive Bootstrap UI will keep you coming back for more.</p>
+  </script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"></script>
   <script src="http://builds.emberjs.com/tags/v1.7.0/ember.js"></script>
@@ -60,8 +71,21 @@
   </script>
   <script>
     App.Router.map(function(){
+      this.route('home', {path: '/'})
       this.route('about');
       this.route('blog');
+    });
+
+    var application_mixin = Ember.Mixin.create({
+      needs: ['application']
+    });
+
+    App.HomeController = Ember.ObjectController.extend(application_mixin, {});
+    App.AboutController = Ember.ObjectController.extend(application_mixin, {});
+    App.BlogController = Ember.ObjectController.extend(application_mixin, {});
+
+    Ember.Handlebars.helper('route-name', function(value, options){
+      return this.get('controllers.application.currentPath').capitalize();
     });
   </script>
 </body>
